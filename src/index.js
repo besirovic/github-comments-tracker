@@ -1,5 +1,5 @@
 const http = require('http');
-const { App, createNodeMiddleware } = require('octokit');
+const { App, createNodeMiddleware, OAuthApp } = require('octokit');
 const { initializeApp } = require('firebase/app');
 const { getFirestore, collection, addDoc } = require('firebase/firestore')
 
@@ -19,8 +19,6 @@ github.webhooks.on(
     'commit_comment.created'
   ],
   ({ payload }) => {
-    console.log('payload', payload)
-
     addDoc(collection(db, "github_events"), payload).then(() => {
       console.log('Document added');
     }).catch((error) => {
